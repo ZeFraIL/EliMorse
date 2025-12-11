@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:context=".Guide"
+    android:background="#CFF7FF"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/custom_button2">
+
+        <TextView
+            android:id="@+id/tvMenuGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eli-Morse"
+            android:textSize="48sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guide"
+        android:textSize="24sp"/>
+
+    <Button
+        android:id="@+id/bWhat"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:text="What is morse?"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/bHow"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:text="How to morse?"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/bList"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:text="Code list"
+        android:layout_weight="1"/>
+
+
+
+
+
+
+
+</LinearLayout>

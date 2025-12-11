@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DashBoard"
+    android:padding="30dp"
+    android:background="#CFF7FF"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/custom_button2">
+
+        <TextView
+            android:id="@+id/tvMenuDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eli-Morse"
+            android:textSize="48sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dash board"
+        android:textSize="24sp"/>
+
+    <Button
+        android:id="@+id/bExercise"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="Exercise"
+        android:textSize="32sp"/>
+    <Button
+        android:id="@+id/bTranslate"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="Translate"
+        android:textSize="32sp"/>
+    <Button
+        android:id="@+id/bGuide"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="Guide"
+        android:textSize="32sp"/>
+    <Button
+        android:id="@+id/bAbout"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="About Us"
+        android:textSize="32sp"/>
+    <Button
+        android:id="@+id/bHistory"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:text="History"
+        android:textSize="32sp"/>
+    <Button
+        android:id="@+id/bReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Reminder"
+        android:textSize="32sp"/>
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="50dp"
+    tools:context=".RegistryFragment"
+    android:background="#CFF7FF">
+
+    <TextView
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="40dp"
+        android:text="*Registry*"/>
+
+    <!-- Move Left -->
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPersonName"
+        android:hint="Name"
+        android:padding="10dp"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="40dp"/>
+
+    <!-- Move Right -->
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:padding="10dp"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="40dp"/>
+
+    <!-- Move Left -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="textEmailAddress"
+        android:hint="E-mail"
+        android:padding="10dp"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="40dp"/>
+
+    <!-- Move Right -->
+    <EditText
+        android:id="@+id/etPhone"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:inputType="phone"
+        android:hint="Phone"
+        android:padding="10dp"
+        android:background="#FFFFFF"
+        android:layout_marginBottom="40dp"/>
+
+</LinearLayout>

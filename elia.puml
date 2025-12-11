@@ -1,0 +1,305 @@
+@startuml
+class elia.shapira.elimorse.ReceiverAfterTime {
+- NotificationManagerCompat nmc
++ void onReceive(Context,Intent)
+- void build_and_view_Notification(Context,Intent)
+}
+
+
+class elia.shapira.elimorse.TextToSpeechHelper {
+- {static} TextToSpeech textToSpeech
++ {static} void speak(String)
++ {static} void shutdown()
+}
+
+
+class elia.shapira.elimorse.ExerciseGame {
+~ Context context
+~ int NOfTry
+~ TextView tvQuestion
+~ String UserPassword
+~ int GameType
+~ Button bDash
+~ HelperDB helperDB
+~ SQLiteDatabase db
+~ Calendar calander
+~ String[] e_numbers
+~ String[] m_numbers
+~ String[] e_words
+~ String[] m_words
+~ String[] e_letters
+~ String[] m_letters
+~ String[][] Strings
+# void onCreate(Bundle)
+- void initElements()
++ String AnswerGenerator()
+- String toMorse()
+- Void resetAfterQuestion()
+}
+
+
+class elia.shapira.elimorse.MorseCode {
+- String mCode
+- String mLetter
++ String getmCode()
++ void setmCode(String)
++ String getmLetter()
++ void setmLetter(String)
++ String toString()
+}
+
+
+class elia.shapira.elimorse.LogAndReg {
+~ LoginFragment fLogin
+~ RegistryFragment fRegister
+~ RadioButton rbLogin
+~ RadioButton rbRegister
+~ Button bConfirm
+~ TextView tvGuest
+~ Context context
+~ FrameLayout FL
+~ String stName
+~ HelperDB helperDB
+~ SQLiteDatabase db
+# void onCreate(Bundle)
+- boolean isUserFound(String,String)
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.NotificationChannel {
++ {static} String CHANNEL_1_ID
++ void onCreate()
+- void createNotificationChannels()
+}
+
+
+class elia.shapira.elimorse.Guide {
+~ Context context
+~ ImageView ivMenu
+~ Button bWhat
+# void onCreate(Bundle)
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.GuideHow {
+~ WebView wv
+~ String videoID
+~ Button bBack
+# void onCreate(Bundle)
+}
+
+
+class elia.shapira.elimorse.My_Toast {
++ {static} void showToast(Context,String)
+}
+
+class elia.shapira.elimorse.LoginFragment {
+~ EditText etNameL
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+
+
+class elia.shapira.elimorse.History {
+~ ArrayList<Exercises> alAll
+~ ArrayList<String> alInfo
+~ Context context
+~ String UserPassword
+~ HelperDB helperDB
+~ SQLiteDatabase db
+~ TextView tv
+~ ListView lvInfo
+~ ArrayAdapter<String> adapter
+# void onCreate(Bundle)
+- void BuildInfo()
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.Reminder {
+~ Context context
+~ TextView tvWhere
+~ Button bWhere
+~ EditText etTimeAfter
+~ Calendar calendar
+~ int notiYear
+~ String stWhere
+# void onCreate(Bundle)
+- void choiceDate()
+- void choiceTime()
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.PowerConnectionReceiver {
++ void onReceive(Context,Intent)
+- void unregisterBatteryReceiver(Context)
++ {static} void showLowBatteryAlert(Context)
+}
+
+class elia.shapira.elimorse.HelperDB {
++ {static} String DBFILE
++ {static} String TABLE_USER
++ {static} String USER_NAME
++ {static} String USER_PASSWORD
++ {static} String USER_EMAIL
++ {static} String USER_PHONE
++ {static} String TABLE_EXERCISE
++ {static} String EXERCISE_KIND
++ {static} String EXERCISE_MISTAKES
++ {static} String EXERCISE_DATE
++ {static} String EXERCISE_USER
++ {static} String SCORE
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
+}
+
+
+class elia.shapira.elimorse.GuideWhat {
+# void onCreate(Bundle)
+}
+
+class elia.shapira.elimorse.Exercises {
+- String exKind
+- String exMistake
+- String exDate
+- String exUser
++ String getExKind()
++ void setExKind(String)
++ String getExMistake()
++ void setExMistake(String)
++ String getExDate()
++ void setExDate(String)
++ String getExUser()
++ void setExUser(String)
+}
+
+
+class elia.shapira.elimorse.GuideList {
+~ Context context
+~ ListView lv
+~ ArrayList<MorseCode> all
+~ ArrayList<String> info
+~ ArrayAdapter<String> adapter
+~ InputStream is
+~ InputStreamReader isr
+~ BufferedReader br
+~ String st1
+# void onCreate(Bundle)
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.Exercise {
+~ Context context
+~ ImageView ivMenu
+~ CheckBox cbHear
+~ RadioButton rbNumbers
+~ Button bNext
+~ int gameType
+~ String UserPassword
+# void onCreate(Bundle)
+- void initElements()
++ int findGameType()
+}
+
+
+class elia.shapira.elimorse.TTS_Service {
+~ TextToSpeech tts
+~ int language
+~ String st
++ IBinder onBind(Intent)
++ int onStartCommand(Intent,int,int)
+- void initializeTextToSpeech()
+}
+
+
+class elia.shapira.elimorse.DashBoard {
+~ Button bExercise
+~ Context context
+~ ImageView ivMenu
+~ String UserPassword
+# void onCreate(Bundle)
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.AboutMe {
+~ Context context
+~ Button bSMS
+# void onCreate(Bundle)
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.Welcome {
+~ ImageView ivLogo
+~ Button bStart
+~ Context context
+~ HelperDB helperDB
+~ SQLiteDatabase db
+~ CountDownTimer cdt
+~ String[] speakme
+~ int i
+~ TextToSpeech tts
+# void onCreate(Bundle)
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.RegistryFragment {
+~ EditText etName
++ View onCreateView(LayoutInflater,ViewGroup,Bundle)
+}
+
+
+class elia.shapira.elimorse.Translate {
+~ Context context
+~ ImageView ivMenu
+~ TextView tvTranslateOutcome
+~ EditText etTranslateIncome
+~ Button bAudio
+- {static} String[] morseLetters
+- {static} String alphabet
+- String[][] morse
+~ int what_switch
+~ boolean flag1
+# void onCreate(Bundle)
+- void toMorse(String)
+- boolean isMorse(String)
+- boolean isText(String)
+- String StringToMorse(String)
+- void initElements()
+}
+
+
+class elia.shapira.elimorse.BatteryLevelReceiver {
++ void onReceive(Context,Intent)
+}
+
+
+
+android.content.BroadcastReceiver <|-- elia.shapira.elimorse.ReceiverAfterTime
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.ExerciseGame
+java.io.Serializable <|.. elia.shapira.elimorse.MorseCode
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.LogAndReg
+android.app.Application <|-- elia.shapira.elimorse.NotificationChannel
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.Guide
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.GuideHow
+androidx.fragment.app.Fragment <|-- elia.shapira.elimorse.LoginFragment
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.History
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.Reminder
+android.content.BroadcastReceiver <|-- elia.shapira.elimorse.PowerConnectionReceiver
+android.database.sqlite.SQLiteOpenHelper <|-- elia.shapira.elimorse.HelperDB
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.GuideWhat
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.GuideList
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.Exercise
+android.app.Service <|-- elia.shapira.elimorse.TTS_Service
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.DashBoard
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.AboutMe
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.Welcome
+androidx.fragment.app.Fragment <|-- elia.shapira.elimorse.RegistryFragment
+androidx.appcompat.app.AppCompatActivity <|-- elia.shapira.elimorse.Translate
+android.content.BroadcastReceiver <|-- elia.shapira.elimorse.BatteryLevelReceiver
+@enduml

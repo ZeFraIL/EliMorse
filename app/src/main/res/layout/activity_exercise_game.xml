@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#CFF7FF"
+    android:padding="30dp"
+    android:gravity="center_horizontal"
+    tools:context=".ExerciseGame">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="100sp"
+            android:textSize="48sp"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:padding="20dp"
+            android:background="@drawable/custom_button1"
+            android:layout_marginBottom="20dp"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvInputNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="150sp"
+        android:background="@drawable/custom_button1"
+        android:gravity="center_horizontal"
+        android:padding="20dp"
+        android:hint="Answer Input"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:textSize="38sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvTryNum1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="O"
+            android:textColor="@color/green"
+            android:textSize="42sp" />
+
+        <TextView
+            android:id="@+id/tvTryNum2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:textSize="42sp"
+            android:text="O"
+            android:textColor="@color/green"
+            />
+
+        <TextView
+            android:id="@+id/tvTryNum3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:textSize="42sp"
+            android:text="O"
+            android:textColor="@color/green"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/bDash"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_margin="3dp"
+            android:backgroundTint="@null"
+            android:background="@drawable/custom_button_dash"
+            android:textStyle="bold"
+            android:textSize="48sp"
+            android:text=" — "/>
+
+        <Button
+            android:id="@+id/bSpace"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_margin="3dp"
+            android:background="@drawable/custom_button_slash"
+            android:textStyle="bold"
+            android:textSize="48sp"
+            android:text=" / "/>
+
+        <Button
+            android:id="@+id/bDot"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_margin="3dp"
+            android:background="@drawable/custom_button_dot"
+            android:textStyle="bold"
+            android:textSize="48sp"
+            android:text=" • "/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+
+        <Button
+            android:id="@+id/bClear"
+            android:layout_width="156dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="3dp"
+            android:textAllCaps="false"
+            android:background="@drawable/custom_button_clear_all"
+            android:text="Clear"/>
+
+        <Button
+            android:id="@+id/bRemove"
+            android:layout_width="156dp"
+            android:layout_height="50dp"
+            android:textAllCaps="false"
+            android:background="@drawable/custom_button_clear_one"
+            android:text="Remove One"/>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/bReady"
+        android:layout_width="315dp"
+        android:layout_height="wrap_content"
+        android:text="I am ready"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/custom_button_ready"
+        android:textAllCaps="false"
+        android:paddingHorizontal="50dp"/>
+
+    <TextView
+        android:id="@+id/tvQuestionNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/10" />
+
+</LinearLayout>

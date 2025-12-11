@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Go to Guide"
+        android:id="@+id/guide"
+        android:icon="@drawable/guide"/>
+
+    <item
+        android:title="Go to credits"
+        android:id="@+id/credits"
+        android:icon="@drawable/credit"/>
+
+    <item
+        android:title="Reminder"
+        android:id="@+id/reminder"
+        android:icon="@drawable/reminder"/>
+
+    <item
+        android:title="Theme"
+        android:id="@+id/theme"
+        android:icon="@drawable/ic_baseline_brightness_6_24"/>
+
+    <item
+        android:title="Back"
+        android:id="@+id/back"
+        android:icon="@drawable/back"/>
+
+    <item
+        android:title="Exit"
+        android:id="@+id/exit"
+        android:icon="@drawable/exit"/>
+</menu>
