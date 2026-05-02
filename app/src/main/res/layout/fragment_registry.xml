@@ -16,7 +16,7 @@
         android:textSize="25dp"
         android:textStyle="bold"
         android:layout_marginBottom="40dp"
-        android:text="*Registry*"/>
+        android:text="@string/registry_title"/>
 
     <!-- Move Left -->
     <EditText
@@ -24,7 +24,7 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:inputType="textPersonName"
-        android:hint="Name"
+        android:hint="@string/name_hint"
         android:padding="10dp"
         android:background="#FFFFFF"
         android:layout_marginBottom="40dp"/>
@@ -35,7 +35,7 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:inputType="textPassword"
-        android:hint="Password"
+        android:hint="@string/password_hint"
         android:padding="10dp"
         android:background="#FFFFFF"
         android:layout_marginBottom="40dp"/>
@@ -46,7 +46,7 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:inputType="textEmailAddress"
-        android:hint="E-mail"
+        android:hint="@string/email_hint"
         android:padding="10dp"
         android:background="#FFFFFF"
         android:layout_marginBottom="40dp"/>
@@ -57,7 +57,7 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:inputType="phone"
-        android:hint="Phone"
+        android:hint="@string/phone_hint"
         android:padding="10dp"
         android:background="#FFFFFF"
         android:layout_marginBottom="40dp"/>

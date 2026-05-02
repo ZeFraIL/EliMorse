@@ -28,7 +28,8 @@ public class ReceiverAfterTime extends BroadcastReceiver {
     }
 
     private void build_and_view_Notification(Context context, Intent intent) {
-        String title = "IMPORTANT!", message = "Something work";
+        String title = context.getString(R.string.notification_title_important);
+        String message = context.getString(R.string.notification_message_reminder);
         Intent goInfo = new Intent(context, Welcome.class);
         //MediaPlayer mp=MediaPlayer.create(context,R.raw.gudok);
         //mp.start();

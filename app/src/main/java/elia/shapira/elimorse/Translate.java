@@ -1,6 +1,5 @@
 package elia.shapira.elimorse;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 
@@ -9,7 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
-import android.media.MediaPlayer;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -20,10 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class Translate extends AppCompatActivity {
+public class Translate extends BaseActivity {
 
     private static final int DOT_DURATION = 250; // ms
     private static final int DASH_DURATION = 3 * DOT_DURATION;
@@ -34,14 +31,16 @@ public class Translate extends AppCompatActivity {
     private Context context;
     private TextView tvTranslateOutcome, tvMenu;
     private EditText etTranslateIncome;
+    private Button bSwitch, bTranslate, bDictionary, bAudio, bFlashlight;
     private int what_switch = 0;
-    private User user;
     private CameraManager cameraManager;
     private String cameraId;
     private final Handler handler = new Handler(Looper.getMainLooper());
-    private final Map<String, String> morseMap = new HashMap<>();
-    private final Map<String, String> textMap = new HashMap<>();
+    private final MorseTranslator translator = new MorseTranslator();
     private boolean isPlaying = false;
+
+    private SoundPool soundPool;
+    private int dotSoundId, dashSoundId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class Translate extends AppCompatActivity {
                 new String[]{Manifest.permission.CAMERA}, 200);
 
         initElements();
-        initMorseMap();
+        initSoundPool();
 
         bSwitch.setOnClickListener(v -> {
             what_switch++;
@@ -91,35 +90,29 @@ public class Translate extends AppCompatActivity {
             flashMorseCode(morseCode, 0);
         });
 
-        tvMenu.setOnClickListener(v -> showPopupMenu());
+        tvMenu.setOnClickListener(v -> showPopupMenu(tvMenu));
+    }
+
+    private void initSoundPool() {
+        AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setMaxStreams(1)
+                .setAudioAttributes(audioAttributes)
+                .build();
+
+        dotSoundId = soundPool.load(this, R.raw.dot1, 1);
+        dashSoundId = soundPool.load(this, R.raw.dash1, 1);
     }
 
     private void toText(String morseInput) {
-        String[] morseArray = morseInput.split("/");
-        StringBuilder textBuilder = new StringBuilder();
-        for (String morseChar : morseArray) {
-            String textChar = textMap.get(morseChar);
-            if (textChar != null) {
-                textBuilder.append(textChar);
-            }
-        }
-        tvTranslateOutcome.setText(textBuilder.toString());
+        tvTranslateOutcome.setText(translator.toText(morseInput));
     }
 
     private void toMorse(String textInput) {
-        String upperCaseInput = textInput.toUpperCase();
-        StringBuilder morseBuilder = new StringBuilder();
-        for (int i = 0; i < upperCaseInput.length(); i++) {
-            String character = String.valueOf(upperCaseInput.charAt(i));
-            String morseChar = morseMap.get(character);
-            if (morseChar != null) {
-                morseBuilder.append(morseChar);
-                if (i < upperCaseInput.length() - 1) {
-                    morseBuilder.append(" "); // Letter separator
-                }
-            }
-        }
-        tvTranslateOutcome.setText(morseBuilder.toString());
+        tvTranslateOutcome.setText(translator.toMorse(textInput));
     }
 
     private void playSequence(String morseCode, int index) {
@@ -130,29 +123,28 @@ public class Translate extends AppCompatActivity {
         isPlaying = true;
 
         char symbol = morseCode.charAt(index);
+        long delay = 0;
+
         switch (symbol) {
             case '.':
-                playSound(R.raw.dot1, DOT_DURATION, () -> playSequence(morseCode, index + 1));
+                soundPool.play(dotSoundId, 1, 1, 1, 0, 1);
+                delay = DOT_DURATION + PART_PAUSE_DURATION;
                 break;
             case '-':
-                playSound(R.raw.dash1, DASH_DURATION, () -> playSequence(morseCode, index + 1));
+                soundPool.play(dashSoundId, 1, 1, 1, 0, 1);
+                delay = DASH_DURATION + PART_PAUSE_DURATION;
                 break;
             case ' ':
-                handler.postDelayed(() -> playSequence(morseCode, index + 1), LETTER_PAUSE_DURATION - PART_PAUSE_DURATION);
+                delay = LETTER_PAUSE_DURATION - PART_PAUSE_DURATION;
                 break;
             case '/':
-                handler.postDelayed(() -> playSequence(morseCode, index + 1), WORD_PAUSE_DURATION - LETTER_PAUSE_DURATION);
+                delay = WORD_PAUSE_DURATION - LETTER_PAUSE_DURATION;
                 break;
+            default:
+                delay = 0;
         }
-    }
 
-    private void playSound(int soundId, int duration, Runnable onCompletion) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(context, soundId);
-        mediaPlayer.setOnCompletionListener(mp -> {
-            mp.release();
-            handler.postDelayed(onCompletion, PART_PAUSE_DURATION);
-        });
-        mediaPlayer.start();
+        handler.postDelayed(() -> playSequence(morseCode, index + 1), delay);
     }
 
     private void flashMorseCode(String morseCode, int index) {
@@ -176,6 +168,8 @@ public class Translate extends AppCompatActivity {
             case '/':
                 handler.postDelayed(() -> flashMorseCode(morseCode, index + 1), WORD_PAUSE_DURATION - LETTER_PAUSE_DURATION);
                 break;
+            default:
+                flashMorseCode(morseCode, index + 1);
         }
     }
 
@@ -195,8 +189,9 @@ public class Translate extends AppCompatActivity {
         }
     }
 
-    private void showPopupMenu() {
-        PopupMenu popupMenu = new PopupMenu(this, tvMenu);
+    @Override
+    protected void showPopupMenu(TextView anchorView) {
+        PopupMenu popupMenu = new PopupMenu(this, anchorView);
         popupMenu.getMenuInflater().inflate(R.menu.total_menu, popupMenu.getMenu());
         MenuItem clearMenuItem = popupMenu.getMenu().add(Menu.NONE, 1, 0, getString(R.string.clear));
         popupMenu.setOnMenuItemClickListener(item -> {
@@ -220,29 +215,16 @@ public class Translate extends AppCompatActivity {
         popupMenu.show();
     }
 
-    private void navigateTo(Class<?> activityClass, String sectionName) {
-        Intent intent = new Intent(context, activityClass);
-        intent.putExtra("user", user);
-        sayWhat(sectionName);
-        startActivity(intent);
-    }
-
-    private void sayWhat(String sayThis) {
-        Intent goService = new Intent(context, TTS_Service.class);
-        goService.putExtra("what", getString(R.string.you_go_to_section, sayThis));
-        startService(goService);
-    }
-
     private void initElements() {
         context = Translate.this;
         Intent takeIt = getIntent();
         user = (User) takeIt.getSerializableExtra("user");
         etTranslateIncome = findViewById(R.id.etTranslateIncome);
         tvTranslateOutcome = findViewById(R.id.tvTranslateOutcome);
-        Button bAudio = findViewById(R.id.bAudio);
-        Button bSwitch = findViewById(R.id.bSwitch);
-        Button bFlashlight = findViewById(R.id.bFlashlight);
-        Button bDictionary = findViewById(R.id.bDictionary);
+        bAudio = findViewById(R.id.bAudio);
+        bSwitch = findViewById(R.id.bSwitch);
+        bFlashlight = findViewById(R.id.bFlashlight);
+        bDictionary = findViewById(R.id.bDictionary);
         bTranslate = findViewById(R.id.bTranslate);
         tvMenu = findViewById(R.id.tvMenu);
         updateSwitchButton();
@@ -269,19 +251,12 @@ public class Translate extends AppCompatActivity {
         }
     }
 
-    private void initMorseMap() {
-        String[][] morseData = {
-                {"A", ".-"}, {"B", "-..."}, {"C", "-.-."}, {"D", "-.."}, {"E", "."}, {"F", "..-."},
-                {"G", "--."}, {"H", "...."}, {"I", ".."}, {"J", ".---"}, {"K", "-.-"}, {"L", ".-.."},
-                {"M", "--"}, {"N", "-."}, {"O", "---"}, {"P", ".--."}, {"Q", "--.-"}, {"R", ".-."},
-                {"S", "..."}, {"T", "-"}, {"U", "..-"}, {"V", "...-"}, {"W", ".--"}, {"X", "-..-"},
-                {"Y", "-.--"}, {"Z", "--.."}, {"0", "-----"}, {"1", ".----"}, {"2", "..---"},
-                {"3", "...--"}, {"4", "....-"}, {"5", "....."}, {"6", "-...."}, {"7", "--..."},
-                {"8", "---.."}, {"9", "----."}, {" ", "/"} // Space
-        };
-        for (String[] pair : morseData) {
-            morseMap.put(pair[0], pair[1]);
-            textMap.put(pair[1], pair[0]);
+    @Override
+    protected void onDestroy() {
+        if (soundPool != null) {
+            soundPool.release();
+            soundPool = null;
         }
+        super.onDestroy();
     }
 }

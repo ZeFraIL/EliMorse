@@ -129,7 +129,7 @@ public class ExerciseGame extends BaseActivity {
             contentValues.put(HelperDB.COLUMN_EXERCISE_KIND, getGameTypeString());
             contentValues.put(HelperDB.COLUMN_EXERCISE_MISTAKES, failedAttempts);
             contentValues.put(HelperDB.COLUMN_EXERCISE_DATE, getCurrentDate());
-            contentValues.put(HelperDB.COLUMN_EXERCISE_USER, user.getUserPassword()); // Note: Using password as user ID might not be ideal
+            contentValues.put(HelperDB.COLUMN_EXERCISE_USER, user.getUserName());
             db.insert(HelperDB.TABLE_EXERCISE, null, contentValues);
             db.close();
         });

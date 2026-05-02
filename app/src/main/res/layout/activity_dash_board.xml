@@ -22,7 +22,7 @@
             android:id="@+id/tvMenuDB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Eli-Morse"
+            android:text="@string/eli_morse"
             android:textSize="48sp"/>
 
     </LinearLayout>
@@ -30,44 +30,44 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dash board"
+        android:text="@string/dashboard_title"
         android:textSize="24sp"/>
 
     <Button
         android:id="@+id/bExercise"
         android:layout_width="match_parent"
         android:layout_height="96dp"
-        android:text="Exercise"
+        android:text="@string/exercise_label"
         android:textSize="32sp"/>
     <Button
         android:id="@+id/bTranslate"
         android:layout_width="match_parent"
         android:layout_height="96dp"
-        android:text="Translate"
+        android:text="@string/translate_label"
         android:textSize="32sp"/>
     <Button
         android:id="@+id/bGuide"
         android:layout_width="match_parent"
         android:layout_height="96dp"
-        android:text="Guide"
+        android:text="@string/guide_label"
         android:textSize="32sp"/>
     <Button
         android:id="@+id/bAbout"
         android:layout_width="match_parent"
         android:layout_height="96dp"
-        android:text="About Us"
+        android:text="@string/about_us_label"
         android:textSize="32sp"/>
     <Button
         android:id="@+id/bHistory"
         android:layout_width="match_parent"
         android:layout_height="96dp"
-        android:text="History"
+        android:text="@string/history_label"
         android:textSize="32sp"/>
     <Button
         android:id="@+id/bReminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Reminder"
+        android:text="@string/reminder_label"
         android:textSize="32sp"/>
 </LinearLayout>

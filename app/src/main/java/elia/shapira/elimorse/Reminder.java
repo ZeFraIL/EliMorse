@@ -50,14 +50,23 @@ public class Reminder extends AppCompatActivity {
         bAddTimeAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String st=etTimeAfter.getText().toString();
-                int t=Integer.parseInt(st);
-                long afterT=System.currentTimeMillis()+1000*t;
-                Intent after=new Intent(context,ReceiverAfterTime.class);
-                PendingIntent afterIntent=PendingIntent.getBroadcast(context,
-                        2,after,PendingIntent.FLAG_IMMUTABLE);
-                AlarmManager alarmManager= (AlarmManager) getSystemService(ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP,afterT,afterIntent);
+                String st = etTimeAfter.getText().toString();
+                if (st.isEmpty()) {
+                    Toast.makeText(context, R.string.please_enter_time, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    int t = Integer.parseInt(st);
+                    long afterT = System.currentTimeMillis() + 1000 * t;
+                    Intent after = new Intent(context, ReceiverAfterTime.class);
+                    PendingIntent afterIntent = PendingIntent.getBroadcast(context,
+                            2, after, PendingIntent.FLAG_IMMUTABLE);
+                    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, afterT, afterIntent);
+                    Toast.makeText(context, getString(R.string.alarm_set_after, t), Toast.LENGTH_SHORT).show();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(context, R.string.invalid_number_format, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

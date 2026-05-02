@@ -24,7 +24,7 @@
             android:id="@+id/tvMenuLAR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Eli-Morse"
+            android:text="@string/eli_morse"
             android:layout_marginEnd="10dp"
             android:textSize="48sp"/>
 
@@ -46,7 +46,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log-In   "
+            android:text="@string/login_radio_label"
             android:checked="true"
             android:textSize="24sp"/>
 
@@ -54,7 +54,7 @@
             android:id="@+id/rbRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Register"
+            android:text="@string/register_radio_label"
             android:textSize="24sp"/>
     </RadioGroup>
 
@@ -62,7 +62,7 @@
         android:id="@+id/bConfirm"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:text="Confirm"/>
+        android:text="@string/confirm_button_label"/>
 
     <FrameLayout
         android:id="@+id/FL"

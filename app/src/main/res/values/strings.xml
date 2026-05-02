@@ -45,5 +45,54 @@
     <string name="email_message">Hello, I have some feedback about the EliMorse app...</string>
     <string name="no_app_found">No app found to handle this action.</string>
     <string name="listening_exercise">Listening</string>
+    <string name="please_enter_time">Please enter time in seconds</string>
+    <string name="alarm_set_after">Alarm set after %1$d seconds</string>
+    <string name="invalid_number_format">Invalid number format</string>
 
+    <!-- Dashboard Strings -->
+    <string name="dashboard_title">Dashboard</string>
+    <string name="exercise_label">Exercise</string>
+    <string name="translate_label">Translate</string>
+    <string name="guide_label">Guide</string>
+    <string name="about_us_label">About Us</string>
+    <string name="history_label">History</string>
+    <string name="reminder_label">Reminder</string>
+
+    <!-- Notification Strings -->
+    <string name="notification_title_important">IMPORTANT!</string>
+    <string name="notification_message_reminder">Time to practice Morse code!</string>
+    <string name="notification_channel_name">Eli-Morse Notifications</string>
+    <string name="notification_channel_description">Notifications for reminders and exercises</string>
+
+    <!-- Welcome Screen -->
+    <string name="start_button_label">Start</string>
+
+    <!-- LogAndReg Screen -->
+    <string name="login_radio_label">Log-In</string>
+    <string name="register_radio_label">Register</string>
+    <string name="confirm_button_label">Confirm</string>
+
+    <!-- Login Fragment -->
+    <string name="login_title">Login</string>
+    <string name="name_hint">Name</string>
+    <string name="password_hint">Password</string>
+
+    <!-- Registry Fragment -->
+    <string name="registry_title">Registry</string>
+    <string name="email_hint">E-mail</string>
+    <string name="phone_hint">Phone</string>
+
+    <!-- Translate Screen -->
+    <string name="translate_hint">Type here...</string>
+    <string name="audio_button">Audio</string>
+    <string name="flashlight_button">Flashlight</string>
+    <string name="dictionary_button">Dictionary</string>
+    <string name="translate_button">Translate</string>
+    <string name="manual_flashlight_button">Manual Flashlight</string>
+
+    <!-- Exercise Selection Screen -->
+    <string name="numbers_label">Numbers</string>
+    <string name="words_label">Words</string>
+    <string name="letters_label">Letters</string>
+    <string name="next_button">Next</string>
 </resources>

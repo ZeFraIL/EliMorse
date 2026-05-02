@@ -3,16 +3,30 @@ package elia.shapira.elimorse;
 import java.io.Serializable;
 
 public class User implements Serializable {
+    private int id;
     private String userName;
     private String userPassword;
     private String userPhone;
     private String userMail;
 
-    public User(String userName, String userPassword, String userPhone, String userMail) {
+    public User(int id, String userName, String userPassword, String userPhone, String userMail) {
+        this.id = id;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userPhone = userPhone;
         this.userMail = userMail;
+    }
+
+    public User(String userName, String userPassword, String userPhone, String userMail) {
+        this(-1, userName, userPassword, userPhone, userMail);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUserName() {

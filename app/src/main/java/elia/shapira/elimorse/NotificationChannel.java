@@ -16,10 +16,10 @@ public class NotificationChannel extends Application {
     private void createNotificationChannels() {
         android.app.NotificationChannel channel1 = new android.app.NotificationChannel(
                 CHANNEL_1_ID,
-                "Channel 1",
+                getString(R.string.notification_channel_name),
                 NotificationManager.IMPORTANCE_HIGH
         );
-        channel1.setDescription("This is Channel for CursAnd teachers");
+        channel1.setDescription(getString(R.string.notification_channel_description));
         NotificationManager manager = getSystemService(NotificationManager.class);
         manager.createNotificationChannel(channel1);
     }

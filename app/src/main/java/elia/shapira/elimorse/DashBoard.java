@@ -58,13 +58,26 @@ public class DashBoard extends BaseActivity {
      */
     @Override
     protected void showPopupMenu(TextView anchorView) {
-        super.showPopupMenu(anchorView);
-        // We need to add the theme option dynamically as it's specific to this menu.
-        // A better approach might be to have different menu resources.
-        anchorView.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(item -> {
-            showThemeDialog();
+        androidx.appcompat.widget.PopupMenu popupMenu = new androidx.appcompat.widget.PopupMenu(this, anchorView);
+        popupMenu.getMenuInflater().inflate(R.menu.total_menu, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.guide) {
+                navigateTo(Guide.class, getString(R.string.guide_part));
+            } else if (itemId == R.id.credits) {
+                navigateTo(AboutMe.class, getString(R.string.about_me_part));
+            } else if (itemId == R.id.reminder) {
+                navigateTo(Reminder.class, getString(R.string.reminder_part));
+            } else if (itemId == R.id.theme) {
+                showThemeDialog();
+            } else if (itemId == R.id.back) {
+                finish();
+            } else if (itemId == R.id.exit) {
+                finishAffinity();
+            }
             return true;
         });
+        popupMenu.show();
     }
 
     /**

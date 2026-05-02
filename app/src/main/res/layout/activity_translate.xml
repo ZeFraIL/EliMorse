@@ -22,7 +22,7 @@
             android:id="@+id/tvMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Eli-Morse"
+            android:text="@string/eli_morse"
             android:textSize="48sp"/>
 
     </LinearLayout>
@@ -30,7 +30,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Translate"
+        android:text="@string/translate_label"
         android:textSize="24sp"/>
 
     <EditText
@@ -42,7 +42,7 @@
         android:layout_margin="10dp"
         android:padding="10dp"
         android:textSize="30sp"
-        android:hint="    Type here..."
+        android:hint="@string/translate_hint"
         android:background="@drawable/custom_button1"/>
 
     <TextView
@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="Audio"/>
+            android:text="@string/audio_button"/>
 
         <Button
             android:id="@+id/bSwitch"
@@ -83,7 +83,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="Flashlight"/>
+            android:text="@string/flashlight_button"/>
 
     </LinearLayout>
     <LinearLayout
@@ -99,7 +99,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="Dictionary"/>
+            android:text="@string/dictionary_button"/>
 
         <Button
             android:id="@+id/bTranslate"
@@ -107,7 +107,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="Translate"/>
+            android:text="@string/translate_label"/>
 
         <Button
             android:id="@+id/bManualFlashlight"
@@ -115,7 +115,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="Manual Flashlight"/>
+            android:text="@string/manual_flashlight_button"/>
 
     </LinearLayout>
 

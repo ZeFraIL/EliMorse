@@ -30,15 +30,11 @@ public class Welcome extends AppCompatActivity {
 
         cdt = new CountDownTimer(7000, 1000) {
             @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
+            public void onTick(long millisUntilFinished) {}
 
             @Override
             public void onFinish() {
-                Intent go = new Intent(context, LogAndReg.class);
-                startActivity(go);
-                finish(); // Finish Welcome activity
+                startMainScreen();
             }
         };
 
@@ -46,10 +42,14 @@ public class Welcome extends AppCompatActivity {
 
         bStart.setOnClickListener(view -> {
             cdt.cancel();
-            Intent go = new Intent(context, LogAndReg.class);
-            startActivity(go);
-            finish(); // Finish Welcome activity
+            startMainScreen();
         });
+    }
+
+    private void startMainScreen() {
+        Intent go = new Intent(this, LogAndReg.class);
+        startActivity(go);
+        finish();
     }
 
     private void applyTheme() {

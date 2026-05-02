@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "elia.shapira.elimorse"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "elia.shapira.elimorse"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = 28
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 

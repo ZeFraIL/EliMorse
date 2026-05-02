@@ -59,7 +59,9 @@ public class TTS_Service extends Service implements TextToSpeech.OnInitListener 
 
     private void speak(String text) {
         if (tts != null && isInitialized) {
-            tts.speak(text, TextToSpeech.QUEUE_ADD, null, null);
+            // Use QUEUE_FLUSH to interrupt previous speech and speak the newest message immediately.
+            // This makes the UI feel more responsive.
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "TTS_MSG_ID");
         }
     }
 
