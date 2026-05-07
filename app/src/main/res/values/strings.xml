@@ -8,7 +8,7 @@
     <string name="name_field_empty">Name field is EMPTY!</string>
     <string name="password_field_empty">Password field is EMPTY!</string>
     <string name="email_field_empty">E-mail field is EMPTY!</string>
-    <string name="phone_field_empty">Phone's number field is EMPTY!</string>
+    <string name="phone_field_empty">Phone\'s number field is EMPTY!</string>
     <string name="user_exists_error">Enter other name or password, please</string>
     <string name="user_not_found">User not found!</string>
     <string name="you_go_to_section">You go to the section %1$s</string>
@@ -33,7 +33,7 @@
     <string name="results_message">Finished with %1$d Mistakes!</string>
     <string name="to_dashboard">To Dashboard</string>
     <string name="failed_title">Failed!</string>
-    <string name="failed_message">Striked 3 times... Better luck next time!\nCorrect answer: '%1$s' %2$s</string>
+    <string name="failed_message">Striked 3 times... Better luck next time!\nCorrect answer: \'%1$s\' %2$s</string>
     <string name="youtube_video_id">D8tPkb98Fkk</string>
     <string name="error_reading_file">Error reading file</string>
 
@@ -95,4 +95,6 @@
     <string name="words_label">Words</string>
     <string name="letters_label">Letters</string>
     <string name="next_button">Next</string>
+    <string name="back_label">Back</string>
+    <string name="exit_label">Exit</string>
 </resources>

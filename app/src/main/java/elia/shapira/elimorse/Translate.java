@@ -84,7 +84,7 @@ public class Translate extends BaseActivity {
             if (isPlaying) return;
             String morseCode = tvTranslateOutcome.getText().toString();
             if (morseCode.isEmpty()) {
-                MyToast.showToast(context, getString(R.string.morse_code_is_empty));
+                My_Toast.showToast(context, getString(R.string.morse_code_is_empty));
                 return;
             }
             flashMorseCode(morseCode, 0);

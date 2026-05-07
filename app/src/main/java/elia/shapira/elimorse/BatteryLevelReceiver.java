@@ -16,7 +16,7 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         level=intent.getIntExtra("level",-1);
         if (level<20)
-            MyToast.showToast(context, context.getString(R.string.battery_level, level));
+            My_Toast.showToast(context, context.getString(R.string.battery_level, level));
         if (level < 10) {
             PowerConnectionReceiver.showLowBatteryAlert(context);
             startVoiceNotifications(context);

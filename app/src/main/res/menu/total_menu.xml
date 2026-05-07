@@ -2,32 +2,31 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Go to Guide"
+        android:title="@string/guide_label"
         android:id="@+id/guide"
         android:icon="@drawable/guide"/>
 
     <item
-        android:title="Go to credits"
+        android:title="@string/about_us_label"
         android:id="@+id/credits"
         android:icon="@drawable/credit"/>
 
     <item
-        android:title="Reminder"
+        android:title="@string/reminder_label"
         android:id="@+id/reminder"
         android:icon="@drawable/reminder"/>
 
     <item
-        android:title="Theme"
-        android:id="@+id/theme"
-        android:icon="@drawable/ic_baseline_brightness_6_24"/>
+        android:title="@string/choose_theme"
+        android:id="@+id/theme" />
 
     <item
-        android:title="Back"
+        android:title="@string/back_label"
         android:id="@+id/back"
         android:icon="@drawable/back"/>
 
     <item
-        android:title="Exit"
+        android:title="@string/exit_label"
         android:id="@+id/exit"
         android:icon="@drawable/exit"/>
 </menu>

@@ -85,7 +85,7 @@ public class LogAndReg extends AppCompatActivity {
                 if (user != null) {
                     proceedToDashboard(user);
                 } else {
-                    MyToast.showToast(context, getString(R.string.user_not_found));
+                    My_Toast.showToast(context, getString(R.string.user_not_found));
                 }
             });
         });

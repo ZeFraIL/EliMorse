@@ -22,12 +22,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
-public class History extends AppCompatActivity {
+public class History extends BaseActivity {
     //TODO make the list view to show only date and onclick an alert dialog with the "Kind","Mistakes"
     ArrayList<Exercises> alAll;
     ArrayList<String> alInfo;
     Context context;
-    User user;
     HelperDB helperDB;
     SQLiteDatabase db;
     TextView tv, tvMenu;
@@ -44,7 +43,7 @@ public class History extends AppCompatActivity {
         tvMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopupMenu();
+                showPopupMenu(tvMenu);
             }
         });
     }
@@ -58,74 +57,28 @@ public class History extends AppCompatActivity {
             db.close();
             String st = "No exercises";
             Toast.makeText(context, st, Toast.LENGTH_SHORT).show();
-            Intent goService=new Intent(context, TTS_Service.class);
-            goService.putExtra("what",st);
-            startService(goService);
+            sayWhat(st);
             return;
         }
         cursor.moveToFirst();
         while (!cursor.isAfterLast())
         {
-            stUser = cursor.getString(3);
-            if(stUser.equals(user.getUserPassword())){
+            stUser = cursor.getString(cursor.getColumnIndexOrThrow(HelperDB.COLUMN_EXERCISE_USER));
+            if(stUser.equals(user.getUserName())){
                 Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();
-                stKind = cursor.getString((int)cursor.getColumnIndex(helperDB.EXERCISE_KIND));
-                stMistake = cursor.getString((int)cursor.getColumnIndex(helperDB.EXERCISE_MISTAKES));
-                stDate = cursor.getString((int)cursor.getColumnIndex(helperDB.EXERCISE_DATE));
+                stKind = cursor.getString(cursor.getColumnIndexOrThrow(HelperDB.COLUMN_EXERCISE_KIND));
+                stMistake = cursor.getString(cursor.getColumnIndexOrThrow(HelperDB.COLUMN_EXERCISE_MISTAKES));
+                stDate = cursor.getString(cursor.getColumnIndexOrThrow(HelperDB.COLUMN_EXERCISE_DATE));
                 Exercises exercises=new Exercises(stKind,stMistake,stDate,stUser);
                 alAll.add(exercises);
                 alInfo.add(exercises.getExDate()+"  -  "+exercises.getExKind()+"  -  finished with "+exercises.getExMistake()+" Mistakes ");
-                cursor.moveToNext();
             }
+            cursor.moveToNext();
         }
         db.close();
         adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,alInfo);
         lvInfo.setAdapter(adapter);
     }
-
-    private void showPopupMenu() {
-        PopupMenu popupMenu = new PopupMenu(this, tvMenu);
-        popupMenu.getMenuInflater().inflate(R.menu.total_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int itemID=item.getItemId();
-                if (itemID==R.id.guide) {
-                    Intent go = new Intent(context,Guide.class);
-                    go.putExtra("user", user);
-                    say_what("reminder part");
-                    startActivity(go);
-                }
-                if (itemID==R.id.credits) {
-                    Intent go = new Intent(context,AboutMe.class);
-                    go.putExtra("user", user);
-                    say_what("reminder part");
-                    startActivity(go);
-                }
-                if (itemID==R.id.reminder) {
-                    Intent go = new Intent(context,Reminder.class);
-                    go.putExtra("user", user);
-                    say_what("reminder part");
-                    startActivity(go);
-                }
-                if (itemID==R.id.back) {
-                    finish();
-                }
-                if (itemID==R.id.exit) {
-                    finishAffinity();
-                }
-                return true;
-            }
-        });
-        popupMenu.show();
-    }
-
-    private void say_what(String say_this) {
-        Intent goService=new Intent(context, TTS_Service.class);
-        goService.putExtra("what","You go to the section "+say_this);
-        startService(goService);
-    }
-
 
     private void initElements() {
         context=this;
@@ -139,6 +92,5 @@ public class History extends AppCompatActivity {
         tv.setText(user.getUserName()+"'s Exercise History");
         tvMenu=findViewById(R.id.tvMenuH);
         BuildInfo();
-
     }
 }

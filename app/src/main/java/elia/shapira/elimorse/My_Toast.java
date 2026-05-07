@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MyToast {
+public class My_Toast {
 
     public static void showToast(Context context, String message) {
         showToast(context, message, R.drawable.welcome_user);
