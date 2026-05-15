@@ -3,6 +3,10 @@ package elia.shapira.elimorse;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A utility class for translating between plain text and Morse code.
+ * It supports international Morse code standards for letters, numbers, and basic punctuation.
+ */
 public class MorseTranslator {
 
     private final Map<String, String> morseMap = new HashMap<>();

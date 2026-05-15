@@ -1,42 +1,86 @@
-# 📱 BaseActivity Documentation
+# Class: BaseActivity
 
-## 1. General Information
-*   **Name:** `BaseActivity`
-*   **Type:** Abstract Class (Activity Parent)
-*   **Purpose:** This is a "parent" or "template" class. It contains code that is used by many other screens (Activities) in the app. Instead of writing the same code for the menu or voice guidance in every screen, we write it here once.
-*   **Interaction:** Other classes like `DashBoard`, `Translate`, and `ExerciseGame` inherit from this class.
+## 1. General information
+*   **Class Name:** `BaseActivity`
+*   **Type:** Activity (Abstract Base Class)
+*   **Purpose:** This class serves as a "template" or "parent" for other activities in the application. It contains common logic that many screens need, such as the navigation menu and Text-to-Speech (TTS) announcements. Instead of rewriting the same menu code in every activity, other classes (like `DashBoard` or `Exercise`) "inherit" from this class.
+*   **Interactions:** It is inherited by most other activities in the app. It uses `TTS_Service` to announce section names and interacts with various Activity classes during navigation.
 
-## 2. Variables (Class Fields)
-| Name | Type | Purpose | Usage |
+## 2. Variables (class fields)
+| Name | Type | Purpose | Where is it used |
 | :--- | :--- | :--- | :--- |
-| `user` | `User` | Stores information about the logged-in user. | Used to pass the user's name and ID between different screens. |
+| `user` | `User` | Stores the currently logged-in user object. | Used to keep track of who is using the app across different screens. |
 
-## 3. Methods
-### Method: `showPopupMenu`
+## 3. Classroom Methods
+
+### Method name: `showPopupMenu`
 *   **Type:** `protected`
-*   **Returns:** `void` (nothing)
+*   **Return value:** `void` (None)
 *   **Parameters:**
-    *   `anchorView` (`TextView`): The UI element (text) that was clicked to open the menu.
-*   **What it does:** Creates and displays a popup menu. It handles button clicks like "Guide", "Credits", or "Exit".
-*   **When called:** Usually when a user clicks the "Eli-Morse" logo or a menu button at the top.
+    | Name | Type | Description |
+    | :--- | :--- | :--- |
+    | `anchorView` | `TextView` | The UI element (like a "Menu" text) that the popup will attach to. |
+*   **Logic:**
+    1. Creates a `PopupMenu` object.
+    2. Loads the menu items from the `total_menu.xml` resource file.
+    3. Sets a listener to handle clicks on menu items (Guide, Credits, Reminder, Back, Exit).
+    4. Navigates to the corresponding screen based on the clicked item.
+*   **When called:** When a user clicks on a menu trigger (usually a TextView) in any activity that extends `BaseActivity`.
+*   **What is important to understand:** This centralizes navigation logic. If you want to add a new item to the menu for all screens, you only need to change it here and in the XML.
 
-### Method: `navigateTo`
+### Method name: `navigateTo`
 *   **Type:** `protected`
-*   **Returns:** `void`
+*   **Return value:** `void`
 *   **Parameters:**
-    *   `activityClass` (`Class<?>`): The destination screen.
-    *   `sectionName` (`String`): The name of the section (for the voice assistant).
-*   **What it does:** Simplifies moving from one screen to another. It automatically includes the `user` object and announces where the user is going using TTS.
+    | Name | Type | Description |
+    | :--- | :--- | :--- |
+    | `activityClass` | `Class<?>` | The class of the activity to open. |
+    | `sectionName` | `String` | The name of the section (for the voice announcement). |
+*   **Logic:**
+    1. Creates an `Intent` to move to the specified activity.
+    2. Attaches the current `user` object to the intent so the next screen knows who is logged in.
+    3. Calls `sayWhat()` to announce where the user is going.
+    4. Starts the new activity.
+*   **When called:** Manually by child activities when they want to switch screens.
+*   **What is important to understand:** It automates the process of passing user data and providing voice feedback.
 
-### Method: `sayWhat`
+### Method name: `sayWhat`
 *   **Type:** `protected`
-*   **Returns:** `void`
+*   **Return value:** `void`
 *   **Parameters:**
-    *   `sayThis` (`String`): The text to be spoken.
-*   **What it does:** Starts the `TTS_Service` to announce text out loud.
+    | Name | Type | Description |
+    | :--- | :--- | :--- |
+    | `sayThis` | `String` | The name of the section or message to speak. |
+*   **Logic:**
+    1. Prepares a message like "You are going to [section name]".
+    2. Starts the `TTS_Service` and sends this message to it.
+*   **When called:** Inside `navigateTo()` or manually when a voice prompt is needed.
+*   **What is important to understand:** This relies on `TTS_Service` being correctly registered in the `AndroidManifest.xml`.
 
-## 7. General Logic
-The `BaseActivity` acts as a foundation. It ensures that every screen in the app has access to the same navigation menu and the same voice assistant, making the app consistent and easier to maintain.
+## 4. Lifecycle
+*   **`onCreate()`**: Not explicitly implemented in `BaseActivity` (it relies on child activities calling `super.onCreate()`).
+*   **`onStart()`, `onResume()`, etc.** : Standard Activity lifecycle applies, but no specific custom logic is added in this base class.
 
-## 8. Simple Explanation
-Imagine you are building several different LEGO houses. Instead of building a new front door for every single house, you create one **Master Door**. `BaseActivity` is that "Master Door" for our app's screens. It provides the menu and the "voice" so you don't have to rebuild them every time.
+## 5. Interface Interaction (UI)
+*   **Elements:** It doesn't have its own layout, but it interacts with `TextView` elements passed to `showPopupMenu`.
+*   **Handling:** It handles menu item clicks via `PopupMenu.OnMenuItemClickListener`.
+
+## 6. Interaction with other components
+*   **Intents:** Uses `Intent` to start new activities and pass the `User` object.
+*   **Services:** Starts `TTS_Service` to provide audio feedback.
+
+## 7. General logic of the class
+`BaseActivity` is like a Swiss Army knife for other activities. Instead of every activity knowing how to show the menu or how to speak to the user, they just "ask" their parent (`BaseActivity`) to do it.
+**Example use case:**
+1. A user is on the `DashBoard` and clicks "Exercise".
+2. `DashBoard` calls `navigateTo(Exercise.class, "Exercise")`.
+3. `BaseActivity` tells the TTS service to say "You are going to Exercise section".
+4. `BaseActivity` starts the `Exercise` activity and passes the user's data.
+
+## 8. Simplified explanation
+Imagine `BaseActivity` as a **General Rulebook** or a **Master Template**. If you are building different rooms in a house (Activities), `BaseActivity` provides the standard doors and the intercom system. Every room you build based on this template automatically gets a door to the hallway (the menu) and the ability to use the speakers (TTS).
+
+---
+**Bugs/Improvements:**
+*   The `theme` logic in the menu is currently empty with a comment saying it's handled in `DashBoard`. It would be better to move the theme dialog logic here so all activities can change the theme easily.
+*   The `user` object is `protected`, which is fine, but ensure all child activities call `super.onCreate` and initialize it properly to avoid `NullPointerException`.

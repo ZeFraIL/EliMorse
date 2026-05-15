@@ -22,17 +22,27 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
+/**
+ * Activity that displays the history of exercises completed by the current user.
+ * It retrieves data from the SQLite database and displays it in a ListView.
+ */
 public class History extends BaseActivity {
-    //TODO make the list view to show only date and onclick an alert dialog with the "Kind","Mistakes"
-    ArrayList<Exercises> alAll;
-    ArrayList<String> alInfo;
-    Context context;
-    HelperDB helperDB;
-    SQLiteDatabase db;
-    TextView tv, tvMenu;
-    ListView lvInfo;
-    ArrayAdapter<String> adapter;
+    
+    /** List to store all exercise records for the user. */
+    private ArrayList<Exercises> alAll;
+    /** List to store formatted string representations of exercises for the ListView. */
+    private ArrayList<String> alInfo;
+    private Context context;
+    private HelperDB helperDB;
+    private SQLiteDatabase db;
+    private TextView tv, tvMenu;
+    private ListView lvInfo;
+    private ArrayAdapter<String> adapter;
 
+    /**
+     * Initializes the activity and sets up the history list.
+     * @param savedInstanceState Saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +58,14 @@ public class History extends BaseActivity {
         });
     }
 
+    /**
+     * Queries the database for exercise records belonging to the current user.
+     * Populates the lists and sets up the ListView adapter.
+     */
     private void BuildInfo() {
         String stUser,stDate,stMistake,stKind;
         db = helperDB.getReadableDatabase();
-        Cursor cursor = db.query(helperDB.TABLE_EXERCISE,null,null,
+        Cursor cursor = db.query(HelperDB.TABLE_EXERCISE,null,null,
                 null,null,null,null);
         if(cursor.getCount()==0) {
             db.close();
@@ -65,7 +79,6 @@ public class History extends BaseActivity {
         {
             stUser = cursor.getString(cursor.getColumnIndexOrThrow(HelperDB.COLUMN_EXERCISE_USER));
             if(stUser.equals(user.getUserName())){
-                Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();
                 stKind = cursor.getString(cursor.getColumnIndexOrThrow(HelperDB.COLUMN_EXERCISE_KIND));
                 stMistake = cursor.getString(cursor.getColumnIndexOrThrow(HelperDB.COLUMN_EXERCISE_MISTAKES));
                 stDate = cursor.getString(cursor.getColumnIndexOrThrow(HelperDB.COLUMN_EXERCISE_DATE));
@@ -75,11 +88,16 @@ public class History extends BaseActivity {
             }
             cursor.moveToNext();
         }
+        cursor.close();
         db.close();
         adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1,alInfo);
         lvInfo.setAdapter(adapter);
     }
 
+    /**
+     * Initializes UI elements, database helper, and retrieves current user.
+     * Calls {@link #BuildInfo()} to populate the history.
+     */
     private void initElements() {
         context=this;
         Intent TakeIt = getIntent();
@@ -89,7 +107,9 @@ public class History extends BaseActivity {
         alInfo = new ArrayList<>();
         lvInfo = (ListView) findViewById(R.id.lvInfo);
         tv = (TextView) findViewById(R.id.tv);
-        tv.setText(user.getUserName()+"'s Exercise History");
+        if (user != null) {
+            tv.setText(user.getUserName()+"'s Exercise History");
+        }
         tvMenu=findViewById(R.id.tvMenuH);
         BuildInfo();
     }

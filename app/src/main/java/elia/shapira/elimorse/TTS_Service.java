@@ -10,12 +10,23 @@ import android.widget.Toast;
 import java.util.Locale;
 import java.util.ArrayList;
 
+/**
+ * A background service that provides Text-To-Speech (TTS) capabilities for the application.
+ * It initializes the system TTS engine and speaks text strings received via intents.
+ * If multiple requests are received before initialization is complete, they are queued and spoken once ready.
+ */
 public class TTS_Service extends Service implements TextToSpeech.OnInitListener {
 
+    /** The TextToSpeech engine instance. */
     private TextToSpeech tts;
+    /** Flag indicating whether the TTS engine has been successfully initialized. */
     private boolean isInitialized = false;
+    /** Queue for text requests received before initialization finishes. */
     private ArrayList<String> pendingSpeaks = new ArrayList<>();
 
+    /**
+     * Initializes the service and the TTS engine.
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,6 +34,15 @@ public class TTS_Service extends Service implements TextToSpeech.OnInitListener 
         Log.d("TTS_Service", "TTS Service created");
     }
 
+    /**
+     * Handles incoming requests to speak text.
+     * Extracts the text from the intent and either speaks it immediately or queues it for later.
+     *
+     * @param intent  The intent containing the "what" extra string to speak.
+     * @param flags   Additional data about this start request.
+     * @param startId A unique integer representing this specific request to start.
+     * @return {@code START_NOT_STICKY} to ensure the service is not automatically restarted if killed.
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && intent.hasExtra("what")) {
@@ -36,6 +56,12 @@ public class TTS_Service extends Service implements TextToSpeech.OnInitListener 
         return START_NOT_STICKY;
     }
 
+    /**
+     * Callback from the TTS engine indicating initialization status.
+     * Sets the language to US English and processes any pending speech requests.
+     *
+     * @param status {@code TextToSpeech.SUCCESS} or {@code TextToSpeech.ERROR}.
+     */
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
@@ -57,6 +83,12 @@ public class TTS_Service extends Service implements TextToSpeech.OnInitListener 
         }
     }
 
+    /**
+     * Speaks the provided text using the TTS engine.
+     * Uses {@code QUEUE_FLUSH} to interrupt any current speech and speak the new text immediately.
+     *
+     * @param text The text string to speak.
+     */
     private void speak(String text) {
         if (tts != null && isInitialized) {
             // Use QUEUE_FLUSH to interrupt previous speech and speak the newest message immediately.
@@ -65,6 +97,9 @@ public class TTS_Service extends Service implements TextToSpeech.OnInitListener 
         }
     }
 
+    /**
+     * Shuts down the TTS engine and cleans up resources when the service is destroyed.
+     */
     @Override
     public void onDestroy() {
         if (tts != null) {
@@ -75,6 +110,11 @@ public class TTS_Service extends Service implements TextToSpeech.OnInitListener 
         super.onDestroy();
     }
 
+    /**
+     * Binding is not supported for this service.
+     * @param intent The intent used for binding.
+     * @return Always null.
+     */
     @Override
     public IBinder onBind(Intent intent) {
         return null;

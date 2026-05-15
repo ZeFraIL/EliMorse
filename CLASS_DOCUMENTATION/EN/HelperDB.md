@@ -1,36 +1,53 @@
-# 🧩 HelperDB Documentation
+# Class: HelperDB
 
-## 1. General Information
-*   **Name:** `HelperDB`
-*   **Type:** Normal Java Class (Extends `SQLiteOpenHelper`)
-*   **Purpose:** This class is responsible for creating and managing the local database file named `Info.db`. It defines the structure (tables and columns) of where all user data and exercise scores are stored.
-*   **Interaction:** Used by `UserRepository` and other activities that need to save results.
+## 1. General information
+*   **Class Name:** `HelperDB`
+*   **Type:** Normal Class (SQLiteOpenHelper)
+*   **Purpose:** This class defines the "skeleton" of the app's database. It specifies exactly what tables exist (Users and Exercises), what their columns are named, and what types of data they hold. It also handles creating the database for the first time and updating it if the structure changes.
+*   **Interactions:** Used by `UserRepository` and activities that save results (like `ExerciseGame`). It is the foundation for all permanent data in the app.
 
-## 2. Variables (Constants)
-| Name | Type | Purpose |
-| :--- | :--- | :--- |
-| `DATABASE_NAME` | `String` | The name of the file on the phone: "Info.db". |
-| `TABLE_USER` | `String` | The name of the user table: "Users". |
-| `COLUMN_USER_NAME` | `String` | The name of the column that stores the user's name. |
-| `TABLE_EXERCISE` | `String` | The name of the exercise results table: "Exercises". |
+## 2. Variables (class fields)
+| Name | Type | Purpose | Where is it used |
+| :--- | :--- | :--- | :--- |
+| `DATABASE_NAME` | `String` | The filename ("Info.db"). | Used by the system to find the file. |
+| `TABLE_USER` | `String` | Name of the users table. | Used in SQL queries. |
+| `COLUMN_USER_NAME`| `String` | Column for the username. | Used in SQL queries. |
+| `TABLE_EXERCISE`| `String` | Name of the exercises table. | Used in SQL queries. |
+| `COLUMN_EXERCISE_MISTAKES`| `String`| Column for the error count. | Used in SQL queries. |
 
-## 3. Methods
-### Method: `onCreate`
+## 3. Classroom Methods
+
+### Method name: `onCreate`
 *   **Type:** `public`
-*   **Returns:** `void`
-*   **Parameters:** `db` (`SQLiteDatabase`)
-*   **What it does:** This method runs **only once** when the app is installed and the database is created for the first time. It executes SQL commands to create the `Users` and `Exercises` tables.
+*   **Parameters:** `db (SQLiteDatabase)`
+*   **Logic:**
+    1. Builds two large "CREATE TABLE" strings using the variable names defined earlier.
+    2. Executes these SQL commands to physically create the tables on the phone's memory.
+*   **When called:** Automatically by Android the very first time the app tries to access the database.
 
-### Method: `onUpgrade`
+### Method name: `onUpgrade`
 *   **Type:** `public`
-*   **What it does:** Runs if you change the `DATABASE_VERSION`. In this app, it deletes the old tables and creates new ones. *Note: In a professional app, you would use this to add new columns without deleting user data.*
+*   **Logic:**
+    1. Deletes the old tables.
+    2. Calls `onCreate()` to make new ones.
+*   **When called:** When the `DATABASE_VERSION` is increased (e.g., from 1 to 2).
+*   **What is important to understand:** This method currently deletes all data during an upgrade. In a real app, you would use code to move the old data to the new structure instead of deleting it.
 
-## 5. Database Structure (Tables)
-1.  **Users Table**: Stores `_id`, `User_Name`, `User_Password`, `User_Email`, `User_Phone`.
-2.  **Exercises Table**: Stores `_id`, `Exercise_Kind`, `Exercise_Mistakes`, `Exercise_Date`, `Exercise_User` (linking to the user).
+## 4. Lifecycle
+*   **N/A:** Managed by the Android system.
 
-## 7. General Logic
-This class acts as the "Architect" of the database. It doesn't usually search for data; it just makes sure the "building" (the database structure) is ready and has the right "rooms" (tables) for the data.
+## 5. Interaction with other components
+*   **SQLite Engine:** The class talks directly to the phone's built-in database engine.
+*   **ContentValues:** Used in conjunction with this class to insert data cleanly.
 
-## 8. Simple Explanation
-Think of `HelperDB` as the **Building Plan** for a filing cabinet. It decides how many drawers the cabinet has (Tables) and what labels are on each folder (Columns). It makes sure that when the app starts for the first time, the cabinet is built correctly so that information can be stored inside.
+## 6. General logic of the class
+`HelperDB` is the **Architect**. It draws the floor plan for the house (the database). It decides where the kitchen (Users) and the living room (Exercises) are. It doesn't live in the house, but it makes sure the house is built correctly.
+
+## 7. Simplified explanation
+Think of `HelperDB` as an **Organizer**. It sets up a big cabinet with drawers. It labels the drawers "Users" and "Exercises". It also makes sure that if you ever need a bigger cabinet, it throws away the old one and sets up a new, better one.
+
+---
+**Bugs/Improvements:**
+*   **Upgrade Strategy:** As mentioned, `DROP TABLE` is destructive. Using `ALTER TABLE` is better for production apps.
+*   **Data Consistency:** The mistakes column was corrected in the comments but ensure the SQL string reflects the correct type (`INTEGER`).
+ Schloss

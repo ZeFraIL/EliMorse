@@ -1,36 +1,68 @@
-# 📱 Reminder Activity Documentation
+# Class: Reminder
 
-## 1. General Information
-*   **Name:** `Reminder`
+## 1. General information
+*   **Class Name:** `Reminder`
 *   **Type:** Activity
-*   **Purpose:** This screen allows users to set reminders for practicing Morse code. Users can choose a specific date and time, or set a timer (e.g., "remind me in 60 seconds").
-*   **Interaction:** Uses `AlarmManager` to schedule tasks and `ReceiverAfterTime` (a BroadcastReceiver) to show notifications when the time comes.
+*   **Purpose:** This screen allows users to set reminders to practice Morse code. Users can schedule a notification for a specific date and time or set a timer for a specific number of seconds.
+*   **Interactions:** It interacts with the Android `AlarmManager` to schedule events and uses `ReceiverAfterTime` to handle the alarm when it goes off.
 
-## 2. Variables (Class Fields)
-| Name | Type | Purpose | Usage |
+## 2. Variables (class fields)
+| Name | Type | Purpose | Where is it used |
 | :--- | :--- | :--- | :--- |
-| `calendar` | `Calendar` | Stores the specific date and time the user chose. | Used to tell the `AlarmManager` exactly when to trigger. |
-| `etTimeAfter` | `EditText` | Field for inputting seconds (for a quick timer). | The value is converted to a long and added to current time. |
-| `bSetAlarm` | `Button` | The button that confirms the scheduled reminder. | Sets the exact alarm when clicked. |
+| `calendar` | `Calendar` | Holds the target date and time for the alarm. | Set via pickers and used by `AlarmManager`. |
+| `notiYear`, etc. | `int` | Individual components of the target time. | Stored from pickers. |
+| `cyear`, etc. | `int` | Components of the *current* time. | Used to initialize the pickers. |
+| `stWhere` | `String` | Formatted string of the chosen time. | Displayed in `tvWhere`. |
+| `etTimeAfter` | `EditText` | Input for the "X seconds" timer. | Read when `bAddTimeAlarm` is clicked. |
 
-## 3. Methods
-### Method: `choiceDate` & `choiceTime`
-*   **What they do:** These methods open the Android **DatePickerDialog** and **TimePickerDialog**. These are standard pop-up windows that let the user pick a date and time easily without typing.
+## 3. Classroom Methods
 
-### Method: `bAddTimeAlarm` (Click Listener)
-*   **What it does:** 
-    1. Reads the number of seconds from the screen.
-    2. Calculates the future time (`System.currentTimeMillis() + seconds`).
-    3. Creates a `PendingIntent` that points to `ReceiverAfterTime`.
-    4. Registers this with the `AlarmManager`.
-*   **Important:** This uses `PendingIntent.FLAG_IMMUTABLE` for security as required by modern Android versions.
+### Method name: `onCreate`
+*   **Type:** `protected`
+*   **Logic:**
+    1. Requests permission to post notifications (Android 13+).
+    2. Initializes UI.
+    3. **bAddTimeAlarm listener:** Reads seconds from `etTimeAfter`, calculates future time, and sets a one-time alarm.
+    4. **bWhere listener:** Opens the date picker.
+    5. **bSetAlarm listener:** Schedules an exact alarm based on the chosen `calendar` time.
+*   **When called:** When the user clicks "Reminder" on the DashBoard.
+
+### Method name: `choiceDate`
+*   **Type:** `private`
+*   **Logic:** Shows a `DatePickerDialog`. Once the user picks a date, it updates the `calendar` object and automatically calls `choiceTime()`.
+*   **When called:** When the user clicks the "Choose Date/Time" button.
+
+### Method name: `choiceTime`
+*   **Type:** `private`
+*   **Logic:** Shows a `TimePickerDialog`. Updates the `calendar` with the chosen hour and minute, and displays the full selection in `tvWhere`.
+*   **When called:** Automatically after `choiceDate()`.
+
+### Method name: `initElements`
+*   **Type:** `private`
+*   **Logic:** Links UI elements and initializes the context.
+*   **When called:** During `onCreate`.
+
+## 4. Lifecycle
+*   **`onCreate()`**: Sets up the scheduling interface.
+
+## 5. Interface Interaction (UI)
+*   **DatePickerDialog / TimePickerDialog:** Standard Android popups for choosing dates and times.
+*   **Button (`bSetAlarm`):** Finalizes the scheduling.
+*   **EditText (`etTimeAfter`):** Quick-set timer input.
 
 ## 6. Interaction with other components
-*   **AlarmManager:** This is a system service. Even if the user closes the app, the `AlarmManager` will remember the schedule and "wake up" the app's code when the time is right.
-*   **ReceiverAfterTime:** When the alarm goes off, this class receives the signal and builds a notification that appears in the phone's status bar.
+*   **AlarmManager:** A system service that can wake up the app (or a receiver) at a specific time, even if the app is closed.
+*   **PendingIntent:** A token handed to the system, allowing it to start `ReceiverAfterTime` on our behalf.
+*   **ReceiverAfterTime:** The class that actually builds and shows the notification.
 
-## 7. General Logic
-The user sets a time. The app registers this time with the Android system's alarm clock. When that time arrives, the system sends a "ping" (Broadcast) to the app. The app catches this "ping" and shows a notification to the user.
+## 7. General logic of the class
+`Reminder` is a **Scheduler**. It collects a future timestamp from the user and "files" it with the Android System. The system then waits until that exact moment and sends a signal (Broadcast) back to the app's receiver.
 
-## 8. Simple Explanation
-Think of the `Reminder` screen as your **Personal Alarm Clock**. You tell it when you want to study. The app then sets a "sticky note" on the Android system's calendar. When the time comes, Android "pokes" the app, and the app shouts: "Hey! Time to learn Morse code!"
+## 8. Simplified explanation
+Think of `Reminder` as a **Digital Alarm Clock**. You tell it "wake me up at 4 PM tomorrow" or "set a timer for 10 minutes". The app then hands this request to the phone's "Secretary" (AlarmManager). The secretary makes sure to tap you on the shoulder (Notification) when the time comes.
+
+---
+**Bugs/Improvements:**
+*   **Variable naming:** `UserPassword` is assigned from the Intent but never used. It also shouldn't be passed around unnecessarily.
+*   **Calendar initialization:** `calendar` should be initialized at the start of `onCreate` to avoid potential `NullPointerException` if the user clicks "Set Alarm" before picking a date.
+*   **Notification permission:** The code requests permission but doesn't check if it's actually granted before proceeding.

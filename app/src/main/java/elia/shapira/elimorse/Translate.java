@@ -20,28 +20,49 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Activity that provides translation between plain text and Morse code.
+ * Users can type text to get Morse code or type Morse code to get text.
+ * The resulting Morse code can be played as sound or output via the device's flashlight.
+ */
 public class Translate extends BaseActivity {
 
-    private static final int DOT_DURATION = 250; // ms
+    /** Duration of a dot in milliseconds. */
+    private static final int DOT_DURATION = 250;
+    /** Duration of a dash in milliseconds (3 times a dot). */
     private static final int DASH_DURATION = 3 * DOT_DURATION;
+    /** Pause between parts of the same letter (1 dot). */
     private static final int PART_PAUSE_DURATION = DOT_DURATION;
+    /** Pause between letters (3 dots). */
     private static final int LETTER_PAUSE_DURATION = 3 * DOT_DURATION;
+    /** Pause between words (7 dots). */
     private static final int WORD_PAUSE_DURATION = 7 * DOT_DURATION;
 
     private Context context;
+    /** UI elements for display and input. */
     private TextView tvTranslateOutcome, tvMenu;
     private EditText etTranslateIncome;
+    /** Control buttons. */
     private Button bSwitch, bTranslate, bDictionary, bAudio, bFlashlight;
+    /** Toggle state for translation direction (Text->Morse or Morse->Text). */
     private int what_switch = 0;
+    /** Camera manager for flashlight control. */
     private CameraManager cameraManager;
     private String cameraId;
+    /** Handler for managing timing of sound and light sequences. */
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final MorseTranslator translator = new MorseTranslator();
+    /** Flag to prevent overlapping playbacks. */
     private boolean isPlaying = false;
 
+    /** SoundPool for low-latency playback of Morse signals. */
     private SoundPool soundPool;
     private int dotSoundId, dashSoundId;
 
+    /**
+     * Initializes the activity, requests camera permissions, and sets up UI and sound.
+     * @param savedInstanceState Saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +114,9 @@ public class Translate extends BaseActivity {
         tvMenu.setOnClickListener(v -> showPopupMenu(tvMenu));
     }
 
+    /**
+     * Sets up the SoundPool and loads dot and dash sounds.
+     */
     private void initSoundPool() {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -107,14 +131,27 @@ public class Translate extends BaseActivity {
         dashSoundId = soundPool.load(this, R.raw.dash1, 1);
     }
 
+    /**
+     * Translates Morse code input to plain text and displays it.
+     * @param morseInput The Morse code string.
+     */
     private void toText(String morseInput) {
         tvTranslateOutcome.setText(translator.toText(morseInput));
     }
 
+    /**
+     * Translates plain text input to Morse code and displays it.
+     * @param textInput The plain text string.
+     */
     private void toMorse(String textInput) {
         tvTranslateOutcome.setText(translator.toMorse(textInput));
     }
 
+    /**
+     * Recursively plays a Morse code sequence as audio signals using SoundPool.
+     * @param morseCode The Morse code sequence to play.
+     * @param index The current character index in the sequence.
+     */
     private void playSequence(String morseCode, int index) {
         if (index >= morseCode.length()) {
             isPlaying = false;
@@ -147,6 +184,11 @@ public class Translate extends BaseActivity {
         handler.postDelayed(() -> playSequence(morseCode, index + 1), delay);
     }
 
+    /**
+     * Recursively plays a Morse code sequence using the device flashlight.
+     * @param morseCode The Morse code sequence to play.
+     * @param index The current character index.
+     */
     private void flashMorseCode(String morseCode, int index) {
         if (index >= morseCode.length()) {
             isPlaying = false;
@@ -173,6 +215,11 @@ public class Translate extends BaseActivity {
         }
     }
 
+    /**
+     * Turns on the flashlight for a specific duration.
+     * @param duration Flash duration in ms.
+     * @param onCompletion Callback to run after the flash and subsequent pause.
+     */
     private void flash(int duration, Runnable onCompletion) {
         try {
             cameraManager.setTorchMode(cameraId, true);
@@ -189,6 +236,10 @@ public class Translate extends BaseActivity {
         }
     }
 
+    /**
+     * Displays the options menu.
+     * @param anchorView View to anchor the menu to.
+     */
     @Override
     protected void showPopupMenu(TextView anchorView) {
         PopupMenu popupMenu = new PopupMenu(this, anchorView);
@@ -215,6 +266,9 @@ public class Translate extends BaseActivity {
         popupMenu.show();
     }
 
+    /**
+     * Initializes UI elements and the camera manager.
+     */
     private void initElements() {
         context = Translate.this;
         Intent takeIt = getIntent();
@@ -238,11 +292,18 @@ public class Translate extends BaseActivity {
         }
     }
 
+    /**
+     * Logs and displays an error message if camera access fails.
+     * @param e The exception.
+     */
     private void handleCameraError(CameraAccessException e) {
         e.printStackTrace();
         Toast.makeText(context, R.string.camera_not_available, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Updates the text of the switch button based on the current translation direction.
+     */
     private void updateSwitchButton() {
         if (what_switch % 2 == 0) {
             bSwitch.setText(R.string.text_to_morse);
@@ -251,6 +312,9 @@ public class Translate extends BaseActivity {
         }
     }
 
+    /**
+     * Releases SoundPool resources when the activity is destroyed.
+     */
     @Override
     protected void onDestroy() {
         if (soundPool != null) {

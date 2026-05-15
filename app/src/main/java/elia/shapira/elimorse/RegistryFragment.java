@@ -8,10 +8,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+/**
+ * Fragment containing the UI for user registration.
+ * Provides methods to retrieve registration details like name, password, email, and phone.
+ */
 public class RegistryFragment extends Fragment {
 
-    private EditText etName, etPassword, etMail, etPhone;
+    /** EditText for entering the name. */
+    private EditText etName;
+    /** EditText for entering the password. */
+    private EditText etPassword;
+    /** EditText for entering the email. */
+    private EditText etMail;
+    /** EditText for entering the phone number. */
+    private EditText etPhone;
 
+    /**
+     * Inflates the registration fragment layout and initializes UI components.
+     *
+     * @param inflater           The LayoutInflater object.
+     * @param container          The parent view container.
+     * @param savedInstanceState Previous saved state.
+     * @return The View for the fragment's UI.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -24,18 +43,34 @@ public class RegistryFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets the name from the registration form.
+     * @return The name string.
+     */
     public String getName() {
         return etName.getText().toString();
     }
 
+    /**
+     * Gets the password from the registration form.
+     * @return The password string.
+     */
     public String getPassword() {
         return etPassword.getText().toString();
     }
 
+    /**
+     * Gets the email address from the registration form.
+     * @return The email string.
+     */
     public String getMail() {
         return etMail.getText().toString();
     }
 
+    /**
+     * Gets the phone number from the registration form.
+     * @return The phone number string.
+     */
     public String getPhone() {
         return etPhone.getText().toString();
     }

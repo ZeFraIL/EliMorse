@@ -8,10 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+/**
+ * Fragment containing the UI for user login.
+ * Provides methods to retrieve the entered name and password.
+ */
 public class LoginFragment extends Fragment {
 
-    private EditText etNameL, etPasswordL;
+    /** EditText for entering the username. */
+    private EditText etNameL;
+    /** EditText for entering the password. */
+    private EditText etPasswordL;
 
+    /**
+     * Inflates the login fragment layout and initializes UI components.
+     *
+     * @param inflater           The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container          If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return The View for the fragment's UI.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -22,10 +37,18 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Gets the name entered in the login form.
+     * @return The username string.
+     */
     public String getName() {
         return etNameL.getText().toString();
     }
 
+    /**
+     * Gets the password entered in the login form.
+     * @return The password string.
+     */
     public String getPassword() {
         return etPasswordL.getText().toString();
     }

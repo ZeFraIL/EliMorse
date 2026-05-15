@@ -24,19 +24,36 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Calendar;
 
+/**
+ * Activity for setting exercise reminders using system alarms and notifications.
+ * Users can set a reminder for a specific date and time or after a delay.
+ */
 public class Reminder extends AppCompatActivity {
 
-    Context context;
-    TextView tvWhere;
-    Button bWhere, bSetAlarm, bAddTimeAlarm;
-    EditText etTimeAfter;
-    Calendar calendar, cNoti;
-    int notiYear, notiMonth, notiDay, notiHour, notiMinute,
+    private Context context;
+    /** TextView to display the selected date and time. */
+    private TextView tvWhere;
+    /** Button to open the date/time picker. */
+    private Button bWhere;
+    /** Button to set an exact alarm. */
+    private Button bSetAlarm;
+    /** Button to set an alarm after a relative delay. */
+    private Button bAddTimeAlarm;
+    /** EditText to enter delay in seconds. */
+    private EditText etTimeAfter;
+    /** Calendars for current time and target notification time. */
+    private Calendar calendar, cNoti;
+    private int notiYear, notiMonth, notiDay, notiHour, notiMinute,
             cyear, cmonth, cday, cminute, chour;
-    String stWhere = "";
-    String UserPassword;
+    /** String representing the selected date/time in human-readable format. */
+    private String stWhere = "";
+    private String UserPassword;
 
 
+    /**
+     * Initializes the reminder activity, requests notification permissions, and sets up alarm buttons.
+     * @param savedInstanceState Saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +115,10 @@ public class Reminder extends AppCompatActivity {
         });
     }
 
+    /**
+     * Opens a DatePickerDialog to choose the reminder date.
+     * Transitions to {@link #choiceTime()} upon selection.
+     */
     private void choiceDate() {
         DatePickerDialog datePickerDialog = new DatePickerDialog(context,
                 new DatePickerDialog.OnDateSetListener() {
@@ -117,6 +138,9 @@ public class Reminder extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    /**
+     * Opens a TimePickerDialog to choose the reminder time.
+     */
     private void choiceTime() {
         TimePickerDialog tpd = new TimePickerDialog(context,
                 new TimePickerDialog.OnTimeSetListener() {
@@ -133,6 +157,9 @@ public class Reminder extends AppCompatActivity {
         tpd.show();
     }
 
+    /**
+     * Initializes UI elements and state.
+     */
     private void initElements() {
         bAddTimeAlarm=findViewById(R.id.bAddTimeAlarm);
         context = this;Intent TakeIt = getIntent();
